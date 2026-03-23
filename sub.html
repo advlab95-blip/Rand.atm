@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>اشتراكي — Rand ATM</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080b14">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100svh;background:#080b14;color:#f0f4ff;font-family:'Tajawal',sans-serif;direction:rtl;-webkit-text-size-adjust:100%}
+#aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:auFloat 20s linear infinite}
+.blob1{width:400px;height:400px;background:radial-gradient(circle,#6c63ff,transparent 70%);top:-10%;right:-10%}
+.blob2{width:300px;height:300px;background:radial-gradient(circle,#00d4ff,transparent 70%);bottom:-5%;left:-5%;animation-delay:-8s}
+@keyframes auFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+.wrap{position:relative;z-index:1;max-width:440px;margin:0 auto;padding:max(20px,env(safe-area-inset-top)) 16px max(40px,env(safe-area-inset-bottom))}
+#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80svh;gap:16px}
+.spinner{width:40px;height:40px;border-radius:50%;border:3px solid rgba(108,99,255,.3);border-top-color:#6c63ff;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#error-box{display:none;background:rgba(255,71,87,.1);border:1px solid rgba(255,71,87,.3);border-radius:20px;padding:28px;text-align:center;margin-top:40px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:28px;padding-top:8px}
+.brand-logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#6c63ff,#00d4ff);display:flex;align-items:center;justify-content:center;font-size:20px}
+.brand-name{font-size:18px;font-weight:900;background:linear-gradient(90deg,#fff,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.status-hero{border-radius:22px;padding:26px;margin-bottom:14px;text-align:center;position:relative;overflow:hidden}
+.status-hero.active{background:linear-gradient(135deg,rgba(0,255,163,.1),rgba(0,212,255,.07));border:1px solid rgba(0,255,163,.2)}
+.status-hero.expiring{background:linear-gradient(135deg,rgba(255,165,2,.12),rgba(255,100,0,.07));border:1px solid rgba(255,165,2,.2)}
+.status-hero.expired{background:linear-gradient(135deg,rgba(255,71,87,.1),rgba(200,0,60,.07));border:1px solid rgba(255,71,87,.2)}
+.status-hero.unpaid{background:linear-gradient(135deg,rgba(255,71,87,.14),rgba(200,0,0,.09));border:1.5px solid rgba(255,71,87,.35)}
+.hero-name{font-size:24px;font-weight:900;margin-bottom:3px}
+.hero-user{font-size:12px;color:rgba(255,255,255,.45);font-family:'JetBrains Mono',monospace;margin-bottom:18px}
+.sbadge{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:900;margin-bottom:14px}
+.sbadge.active{background:rgba(0,255,163,.12);color:#00ffa3;border:1px solid rgba(0,255,163,.25)}
+.sbadge.expiring{background:rgba(255,165,2,.12);color:#ffa502;border:1px solid rgba(255,165,2,.25)}
+.sbadge.expired,.sbadge.unpaid{background:rgba(255,71,87,.12);color:#ff4757;border:1px solid rgba(255,71,87,.25)}
+.bdot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.days-num{font-size:56px;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1}
+.days-lbl{font-size:12px;color:rgba(255,255,255,.45);margin-top:6px}
+.prog{background:rgba(255,255,255,.07);border-radius:8px;height:7px;overflow:hidden;margin:18px 0 0}
+.prog-f{height:100%;border-radius:8px;transition:width 1.2s ease}
+.debt-box{display:flex;justify-content:space-between;align-items:center;background:rgba(255,71,87,.1);border:1.5px solid rgba(255,71,87,.3);border-radius:18px;padding:16px 18px;margin-bottom:12px}
+.debt-lbl{font-size:11px;color:#ff4757;font-weight:900;margin-bottom:4px}
+.debt-amt{font-size:28px;font-weight:900;color:#ff4757;font-family:'JetBrains Mono',monospace}
+.debt-cur{font-size:10px;color:rgba(255,71,87,.55)}
+.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:16px;margin-bottom:12px}
+.icard h3{font-size:10px;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:.6px;margin-bottom:12px}
+.irow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.irow:last-child{border:none}
+.ikey{font-size:13px;color:rgba(255,255,255,.45)}
+.ival{font-size:13px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.wa-big{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:15px;border-radius:14px;background:rgba(37,211,102,.12);border:1.5px solid rgba(37,211,102,.3);color:#25d366;font-size:14px;font-weight:900;text-decoration:none;font-family:'Tajawal',sans-serif;margin-top:14px}
+.wa-big svg{width:18px;height:18px}
+.refresh{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:12px;border-radius:14px;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);font-size:13px;font-weight:900;font-family:'Tajawal',sans-serif;cursor:pointer;margin-top:8px}
+#lookup{display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:20px;margin-top:20px}
+#lookup h3{font-size:14px;font-weight:900;margin-bottom:12px;color:rgba(255,255,255,.6)}
+.fi{width:100%;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:13px 14px;color:#f0f4ff;font-size:16px;font-family:'Tajawal',sans-serif;outline:none;margin-bottom:10px;direction:ltr}
+.fi:focus{border-color:#6c63ff}
+.lbtn{width:100%;padding:13px;border-radius:10px;background:linear-gradient(135deg,#6c63ff,#00d4ff);border:none;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:'Tajawal',sans-serif}
+.fnote{text-align:center;font-size:11px;color:rgba(255,255,255,.18);margin-top:24px;line-height:1.7}
+#main{display:none}
+</style>
+</head>
+<body>
+<div id="aurora"><div class="blob blob1"></div><div class="blob blob2"></div></div>
+<div class="wrap">
+  <div class="brand">
+    <div class="brand-logo">🌐</div>
+    <div class="brand-name" id="brand-name">Rand ATM</div>
+  </div>
+  <div id="loading"><div class="spinner"></div><div style="font-size:13px;color:rgba(255,255,255,.35)">جاري تحميل بيانات اشتراكك...</div></div>
+  <div id="error-box">
+    <div style="font-size:40px;margin-bottom:12px">🔍</div>
+    <div style="font-size:16px;font-weight:900;color:#ff4757;margin-bottom:8px">لم يتم العثور على الاشتراك</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.4);line-height:1.7">تحقق من الرابط أو تواصل مع المزود</div>
+  </div>
+  <div id="main">
+    <div class="status-hero" id="hero">
+      <div class="hero-name" id="sub-name"></div>
+      <div class="hero-user" id="sub-user"></div>
+      <div class="sbadge" id="sbadge"><span class="bdot"></span><span id="stext"></span></div>
+      <div class="days-num" id="days-num"></div>
+      <div class="days-lbl" id="days-lbl"></div>
+      <div class="prog"><div class="prog-f" id="prog-f"></div></div>
+    </div>
+    <div class="debt-box" id="debt-box" style="display:none">
+      <div><div class="debt-lbl">⚠ مبلغ مطلوب</div><div class="debt-amt" id="debt-amt"></div><div class="debt-cur">دينار عراقي (IQD)</div></div>
+      <div style="font-size:34px">💸</div>
+    </div>
+    <div class="icard">
+      <h3>تفاصيل الاشتراك</h3>
+      <div class="irow"><span class="ikey">الباقة</span><span class="ival" id="i-price"></span></div>
+      <div class="irow"><span class="ikey">البداية</span><span class="ival" id="i-start"></span></div>
+      <div class="irow"><span class="ikey">النهاية</span><span class="ival" id="i-end"></span></div>
+      <div class="irow"><span class="ikey">حالة الدفع</span><span class="ival" id="i-paid"></span></div>
+    </div>
+    <a class="wa-big" id="wa-link" href="#" target="_blank" style="display:none">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.859L.057 23.571l5.88-1.539A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.817 9.817 0 0 1-5.001-1.368l-.359-.214-3.71.973.989-3.614-.234-.373A9.818 9.818 0 1 1 12 21.818z"/></svg>
+      تواصل مع المزود
+    </a>
+    <button class="refresh" onclick="loadSub()">🔄 تحديث</button>
+    <div class="fnote" id="fnote">مدعوم بـ Rand ATM</div>
+  </div>
+  <div id="lookup">
+    <h3>🔍 تحقق من اشتراكك</h3>
+    <input class="fi" id="lu-val" placeholder="أدخل اسم المستخدم..." oninput="" onkeydown="if(event.key==='Enter')doLookup()">
+    <button class="lbtn" onclick="doLookup()">بحث</button>
+  </div>
+</div>
+<script>
+const SB_URL='https://szljofrljstejsrmjzrs.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6bGpvZnJsanN0ZWpzcm1qenJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMjg5MjcsImV4cCI6MjA4OTYwNDkyN30.hotokJW4BXZwJYRm04-T2_rDTnKi32QGijE5dovqAtw';
+let sb=null;
+const initSB=()=>{if(!sb)sb=supabase.createClient(SB_URL,SB_KEY);return sb;};
+const fd=d=>{if(!d)return'—';const[y,m,dy]=d.split('-').map(Number);return new Date(y,m-1,dy).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});};
+const pd=d=>{const[y,m,dy]=d.split('-').map(Number);const dt=new Date(y,m-1,dy);dt.setHours(0,0,0,0);return dt;};
+const dl=e=>{const t=new Date();t.setHours(0,0,0,0);return Math.ceil((pd(e)-t)/864e5);};
+
+async function loadSub(u){
+  const p=new URLSearchParams(location.search);
+  const username=u||p.get('u')||p.get('username');
+  document.getElementById('loading').style.display='flex';
+  document.getElementById('main').style.display='none';
+  document.getElementById('error-box').style.display='none';
+  document.getElementById('lookup').style.display='none';
+  if(!username){document.getElementById('loading').style.display='none';document.getElementById('lookup').style.display='block';return;}
+  try{
+    const{data,error}=await initSB().from('subscribers').select('*').ilike('username',username).single();
+    document.getElementById('loading').style.display='none';
+    if(error||!data){document.getElementById('error-box').style.display='block';return;}
+    // Load biz name
+    initSB().from('app_settings').select('value').eq('key','settings').single().then(({data:sd})=>{
+      const n=sd?.value?.bizName||'Rand ATM';
+      document.getElementById('brand-name').textContent=n;
+      document.getElementById('fnote').textContent='مدعوم بـ '+n;
+      document.title='اشتراكي — '+n;
+      // Admin phone for WA contact
+      const adminPhone=sd?.value?.adminPhone;
+      if(adminPhone){
+        const wael=document.getElementById('wa-link');
+        const msg=encodeURIComponent('مرحباً، أنا '+data.name+' (@'+data.username+')\nاستفسار عن اشتراكي');
+        wael.href='https://wa.me/964'+adminPhone.replace(/^0/,'')+`?text=${msg}`;
+        wael.style.display='flex';
+      }
+    }).catch(()=>{});
+    renderSub(data);
+  }catch(e){document.getElementById('loading').style.display='none';document.getElementById('error-box').style.display='block';}
+}
+
+function renderSub(s){
+  const days=dl(s.end_date);
+  const isPaid=s.is_paid===true||s.is_paid==='true'||s.is_paid===1;
+  const endD=pd(s.end_date),startD=pd(s.start_date);
+  const months=Math.max(1,Math.round((endD-startD)/864e5/30));
+  const debt=isPaid?0:(s.debt>0?s.debt:months*s.price);
+
+  let st='active';
+  if(!isPaid)st='unpaid';
+  else if(days<0)st='expired';
+  else if(days<=5)st='expiring';
+
+  document.getElementById('hero').className='status-hero '+st;
+  document.getElementById('sub-name').textContent=s.name;
+  document.getElementById('sub-user').textContent='@'+s.username;
+
+  const stLbl={active:'الاشتراك نشط ✓',expiring:'ينتهي قريباً ⚡',expired:'الاشتراك منتهي ✕',unpaid:'غير مسدد ⚠'};
+  document.getElementById('sbadge').className='sbadge '+st;
+  document.getElementById('stext').textContent=stLbl[st];
+
+  const numEl=document.getElementById('days-num');
+  const lblEl=document.getElementById('days-lbl');
+  if(days<0){numEl.textContent='منتهي';numEl.style.cssText='font-size:34px;font-weight:900;color:#ff4757';lblEl.textContent='انتهى منذ '+Math.abs(days)+' يوم';}
+  else{numEl.textContent=days;numEl.style.cssText='font-size:56px;font-weight:900;font-family:JetBrains Mono,monospace;color:'+(days<=5?'#ffa502':'#00ffa3');lblEl.textContent='يوم متبقي';}
+
+  const pct=Math.max(0,Math.min(100,(days/30)*100));
+  document.getElementById('prog-f').style.cssText=`width:${pct}%;background:${days<0?'#ff4757':days<=5?'#ffa502':'#00ffa3'}`;
+
+  if(debt>0){
+    document.getElementById('debt-box').style.display='flex';
+    document.getElementById('debt-amt').textContent=debt.toLocaleString('en-US');
+  }
+
+  document.getElementById('i-price').textContent=s.price.toLocaleString('en-US')+' IQD / شهر';
+  document.getElementById('i-start').textContent=fd(s.start_date);
+  const endEl=document.getElementById('i-end');
+  endEl.textContent=fd(s.end_date);
+  endEl.style.color=days<0?'#ff4757':days<=5?'#ffa502':'#00ffa3';
+  const paidEl=document.getElementById('i-paid');
+  paidEl.textContent=isPaid?'✓ مسدد':'⚠ غير مسدد';
+  paidEl.style.color=isPaid?'#00ffa3':'#ff4757';
+
+  document.getElementById('main').style.display='block';
+}
+function doLookup(){const v=document.getElementById('lu-val').value.trim();if(v)loadSub(v);}
+loadSub();
+</script>
+</body>
+</html>
