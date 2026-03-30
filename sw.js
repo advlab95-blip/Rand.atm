@@ -1,6 +1,6 @@
-// Rand ATM — Service Worker v9
+// Rand ATM — Service Worker v10
 // يعمل مع GitHub Pages (subfolder) و Netlify (root)
-const CACHE = 'rand-atm-v9';
+const CACHE = 'rand-atm-v10';
 
 // نكتشف المسار تلقائياً
 const BASE = self.registration.scope;
