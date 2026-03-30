@@ -933,19 +933,17 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
    HERO HEADER
 ══════════════════════════════════════════ */
 .hero-header {
-  flex-shrink: 0;
   background: linear-gradient(145deg, #1E0A4C 0%, #3D1A8C 55%, #6C47FF 100%);
-  padding: max(44px, calc(30px + env(safe-area-inset-top))) 14px 0;
+  padding: max(44px, calc(30px + env(safe-area-inset-top))) 14px 10px;
   position: relative; z-index: 20;
   overflow: hidden;
-  transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease, padding .35s ease;
-  max-height: 300px;
 }
-.hero-header.hero-collapsed {
-  max-height: 0;
-  opacity: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+.sticky-controls {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 15;
+  background: var(--bg);
+  padding-top: 2px;
 }
 .hero-header::before {
   content: '';
@@ -1135,8 +1133,8 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
 .snc-price { font-size:13px; font-weight:900; color:#6C47FF; font-family:'JetBrains Mono',monospace; }
 .snc-cur { font-size:9px; color:#9CA3AF; font-weight:700; }
 
-/* Info row */
-.snc-info { display:grid; grid-template-columns:1fr 1fr 1fr; gap:3px; margin-bottom:6px; }
+/* Info row — hidden by default for compact view */
+.snc-info { display:none; }
 .snc-info-item { background:#F9FAFB; border-radius:8px; padding:4px 6px; }
 .snc-info-l { font-size:9px; color:#9CA3AF; font-weight:700; margin-bottom:1px; }
 .snc-info-v { font-size:10px; font-weight:700; color:#1A1A2E; font-family:'JetBrains Mono',monospace; }
@@ -1252,7 +1250,9 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
 ══════════════════════════════════ -->
 <div id="app">
 
-  <!-- ══ HERO HEADER ══ -->
+  <!-- ══ HERO HEADER — moved inside psubs so it scrolls with content ══ -->
+  <!-- PAGE: SUBS -->
+  <div class="page" id="psubs">
   <div class="hero-header">
     <div class="hero-top-row">
       <div class="hero-brand">
@@ -1306,9 +1306,7 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
     </div>
 
   </div>
-
-  <!-- PAGE: SUBS -->
-  <div class="page" id="psubs">
+  <div class="sticky-controls">
     <div class="ctrl-row">
       <div class="search-wrap">
         <svg class="s-ico" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -1342,6 +1340,7 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
         <button id="bulk-toggle-btn" onclick="toggleBulkMode()" style="background:var(--b1);border:1px solid var(--br);border-radius:7px;padding:3px 9px;font-size:11px;font-weight:900;color:var(--tx2);cursor:pointer;font-family:inherit">☑ تحديد</button>
       </div>
     </div>
+  </div><!-- /sticky-controls -->
     <div class="list-body" id="list"></div>
     <!-- Bulk action bar -->
     <div class="bulk-bar" id="bulk-bar">
@@ -2257,21 +2256,6 @@ async function initApp(){
     document.getElementById('fen').value=d.toISOString().split('T')[0];
   });
   buildMSel();buildRMo();updateStats();render();renderReport();checkAlerts();
-  // hide-on-scroll for hero header
-  (function(){
-    const hero=document.querySelector('.hero-header');
-    let lastY=0;
-    ['psubs','pdebts','preport'].forEach(function(pid){
-      const el=document.getElementById(pid);
-      if(!el)return;
-      el.addEventListener('scroll',function(){
-        const y=this.scrollTop;
-        if(y>lastY&&y>40){hero.classList.add('hero-collapsed');}
-        else if(y<lastY){hero.classList.remove('hero-collapsed');}
-        lastY=y;
-      },{passive:true});
-    });
-  })();
   // إعادة تطبيق safe area بعد رسم الـ UI
   setTimeout(applyIOSSafeArea,150);
   const today=new Date().toDateString();
