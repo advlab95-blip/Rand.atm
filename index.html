@@ -189,10 +189,7 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
 #login-screen{display:flex;align-items:center;justify-content:center;padding:20px;background:var(--bg)}
 #app{
   display:none;flex-direction:column;
-  /* الخلفية تمتد تحت home indicator بـ negative margin */
   background:var(--bg);
-  margin-bottom:calc(-1 * env(safe-area-inset-bottom,0px));
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 /* safe area للمحتوى — يُضبط بـ JS أيضاً */
 .list-body{padding:0 13px;padding-bottom:100px}
@@ -1033,12 +1030,13 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
    BOTTOM NAVIGATION
 ══════════════════════════════════════════ */
 .bottom-nav {
-  flex-shrink: 0;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
   background: #fff;
   border-top: 1px solid rgba(108,71,255,.08);
   display: flex; align-items:center; justify-content:space-around;
-  padding: 8px 8px max(16px, calc(8px + env(safe-area-inset-bottom)));
-  position: relative; z-index: 20;
+  padding: 8px 8px env(safe-area-inset-bottom, 8px);
+  z-index: 20;
   box-shadow: 0 -4px 20px rgba(108,71,255,.08);
 }
 .bnav-item {
@@ -1074,9 +1072,9 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
 [data-theme="black"] .bnav-item.on,
 [data-theme="neon"] .bnav-item.on { color: var(--a1); }
 
-/* Adjust page bottom padding for bottom nav */
-.list-body { padding-bottom: 20px !important; }
-.rep-inner { padding-bottom: 20px !important; }
+/* Adjust page bottom padding for bottom nav (fixed at bottom) */
+.list-body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important; }
+.rep-inner { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important; }
 
 /* Hero header for ALL themes */
 [data-theme="dark"] .hero-header,
