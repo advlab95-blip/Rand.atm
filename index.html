@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="dark">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
 <!-- هذا هو الحل الصح للشريط الأبيض على iOS -->
 <style>
-  :root { color-scheme: dark; }
+  :root { color-scheme: light; }
   html {
-    background: #080b14;
-    /* يمنع الشريط الأبيض عند السحب */
+    background: #F0F1FF;
     overscroll-behavior: none;
   }
   body {
-    background: #080b14;
+    background: #F0F1FF;
     overscroll-behavior: none;
     touch-action: pan-y;
     -webkit-text-size-adjust: 100%;
@@ -27,7 +26,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Rand ATM">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#080b14">
+<meta name="theme-color" content="#6C47FF">
 <meta name="description" content="نظام إدارة مشتركين الإنترنت">
 <link rel="manifest" href="manifest.json">
 <!-- iOS icons -->
@@ -60,12 +59,14 @@
   --glass:rgba(13,20,37,.7);--topbar:rgba(8,11,20,.9);--sh:rgba(0,0,0,.6);
 }
 [data-theme="light"]{
-  --bg:#f0f4ff;--g1:#fff;--g2:#f5f7ff;--g3:#e8eeff;
-  --b1:rgba(0,0,0,.04);--b2:rgba(0,0,0,.07);
-  --br:rgba(108,99,255,.15);--br2:rgba(108,99,255,.4);
-  --tx:#0a1428;--tx2:#3a5080;--tx3:#8aa0c0;
-  --card:rgba(255,255,255,.9);--inp:rgba(108,99,255,.04);
-  --glass:rgba(255,255,255,.8);--topbar:rgba(240,244,255,.95);--sh:rgba(108,99,255,.12);
+  --bg:#F0F1FF;--g1:#FFFFFF;--g2:#FFFFFF;--g3:#F5F3FF;
+  --b1:rgba(108,71,255,.06);--b2:rgba(108,71,255,.1);
+  --br:rgba(108,71,255,.1);--br2:rgba(108,71,255,.4);
+  --tx:#1A1A2E;--tx2:#4B5563;--tx3:#9CA3AF;
+  --card:#FFFFFF;--inp:#F9FAFB;
+  --glass:rgba(255,255,255,.95);--topbar:rgba(30,10,76,.97);--sh:rgba(108,71,255,.1);
+  --a1:#6C47FF;--a2:#9B73FF;--a3:#10B981;
+  --red:#EF4444;--amber:#F59E0B;--green:#10B981;--teal:#06B6D4;
 }
 [data-theme="black"]{
   --bg:#000;--g1:#0a0a0a;--g2:#111;--g3:#161616;
@@ -152,8 +153,7 @@
 html{
   width:100%;height:100%;overflow:hidden;position:fixed;
   -webkit-text-size-adjust:100%;text-size-adjust:100%;
-  /* لون html = لون التطبيق — هذا هو سبب الشريط الأبيض إذا كان مختلف */
-  background:#080b14;
+  background:#F0F1FF;
   overscroll-behavior:none;
 }
 body{
@@ -650,6 +650,282 @@ input,select,textarea,button{font-family:'Tajawal',sans-serif;font-size:16px !im
 /* ── WA BULK BTN ────────────────────────── */
 .wa-bulk-btn{width:100%;padding:12px;border-radius:var(--rs);background:rgba(37,211,102,.15);border:1.5px solid rgba(37,211,102,.35);color:#25d366;font-size:13px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s;font-family:inherit}
 .wa-bulk-btn:hover{background:#25d366;color:#fff;border-color:transparent}
+
+/* ══════════════════════════════════════════
+   E-WALLET LIGHT THEME OVERRIDES
+══════════════════════════════════════════ */
+
+/* ── Background & Aurora ── */
+[data-theme="light"] .au-blob { display: none !important; }
+[data-theme="light"] #netc { display: none !important; }
+
+/* ── Login Screen ── */
+[data-theme="light"] #login-screen {
+  background: linear-gradient(145deg, #1E0A4C 0%, #3D1A8C 55%, #6C47FF 100%);
+}
+[data-theme="light"] .lcard {
+  background: rgba(255,255,255,.97);
+  border-color: rgba(255,255,255,.4);
+  box-shadow: 0 0 0 1px rgba(108,71,255,.15), 0 32px 80px rgba(108,71,255,.3);
+}
+[data-theme="light"] .ltitle { color: #1A1A2E; }
+[data-theme="light"] .lsub { color: #6B7280; }
+[data-theme="light"] .ltheme-btn {
+  background: rgba(255,255,255,.15);
+  border-color: rgba(255,255,255,.25);
+  color: rgba(255,255,255,.85);
+}
+[data-theme="light"] .lerr { background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.3); color: #EF4444; }
+[data-theme="light"] .lf-inp {
+  background: #F9FAFB;
+  border-color: #E5E7EB;
+  color: #1A1A2E;
+}
+[data-theme="light"] .lf-inp:focus { border-color: #6C47FF; box-shadow: 0 0 0 3px rgba(108,71,255,.12); }
+[data-theme="light"] .pin-dot { border-color: rgba(108,71,255,.3); }
+[data-theme="light"] .pin-key {
+  background: #F9FAFB;
+  border-color: #E5E7EB;
+  color: #1A1A2E;
+}
+[data-theme="light"] .pin-key:hover { background: #EEF0FF; border-color: #6C47FF; }
+[data-theme="light"] .pin-key:active { background: rgba(108,71,255,.15); border-color: #6C47FF; }
+
+/* ── Topbar — Dark Purple Gradient ── */
+[data-theme="light"] .topbar {
+  background: linear-gradient(135deg, #1E0A4C 0%, #3D1A8C 55%, #6C47FF 100%) !important;
+  border-bottom: none !important;
+  box-shadow: 0 4px 20px rgba(108,71,255,.35);
+}
+[data-theme="light"] .t-name {
+  background: linear-gradient(90deg, #fff 0%, #C8B6FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme="light"] .t-date { color: rgba(255,255,255,.45); }
+[data-theme="light"] .t-logo-mark {
+  background: rgba(255,255,255,.15);
+  box-shadow: none;
+}
+[data-theme="light"] .tbtn {
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.18);
+  color: rgba(255,255,255,.9);
+}
+[data-theme="light"] .tbtn:hover { background: rgba(255,255,255,.22); color: #fff; }
+[data-theme="light"] .avatar { border-color: rgba(255,255,255,.4); }
+
+/* ── Tabs ── */
+[data-theme="light"] .tabs {
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(108,71,255,.08);
+  box-shadow: 0 2px 8px rgba(108,71,255,.05);
+}
+[data-theme="light"] .tab { color: #9CA3AF; font-weight: 700; }
+[data-theme="light"] .tab.on { color: #6C47FF; border-bottom-color: #6C47FF; }
+
+/* ── Stats Strip ── */
+[data-theme="light"] .ssc {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,.04);
+  box-shadow: 0 2px 12px rgba(108,71,255,.07);
+}
+[data-theme="light"] .ssc.b .ssc-v { color: #6C47FF; }
+[data-theme="light"] .ssc.g .ssc-v { color: #10B981; }
+[data-theme="light"] .ssc.a .ssc-v { color: #F59E0B; }
+[data-theme="light"] .ssc.r .ssc-v { color: #EF4444; }
+[data-theme="light"] .ssc-l { color: #9CA3AF; }
+
+/* ── Income Bar ── */
+[data-theme="light"] .income-bar {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,.04);
+  box-shadow: 0 2px 12px rgba(108,71,255,.07);
+}
+[data-theme="light"] .ib-l { color: #9CA3AF; }
+[data-theme="light"] .ib-v.g { color: #10B981; }
+[data-theme="light"] .ib-v.r { color: #EF4444; }
+
+/* ── Search & Controls ── */
+[data-theme="light"] .s-inp {
+  background: #FFFFFF;
+  border-color: #E5E7EB;
+  color: #1A1A2E;
+  box-shadow: 0 1px 6px rgba(108,71,255,.06);
+}
+[data-theme="light"] .s-inp:focus { border-color: #6C47FF; box-shadow: 0 0 0 3px rgba(108,71,255,.1); }
+[data-theme="light"] .s-inp::placeholder { color: #C4C9D9; }
+[data-theme="light"] .sort-b {
+  background: #FFFFFF;
+  border-color: #E5E7EB;
+  color: #4B5563;
+  box-shadow: 0 1px 6px rgba(108,71,255,.06);
+}
+[data-theme="light"] .sort-b.on, [data-theme="light"] .sort-b:hover { border-color: #6C47FF; color: #6C47FF; }
+[data-theme="light"] .sort-dd { background: #FFFFFF; border-color: #E5E7EB; box-shadow: 0 12px 40px rgba(108,71,255,.15); }
+
+/* ── Filter Chips ── */
+[data-theme="light"] .chip {
+  background: #FFFFFF;
+  border-color: #E5E7EB;
+  color: #4B5563;
+  box-shadow: 0 1px 4px rgba(108,71,255,.05);
+}
+[data-theme="light"] .chip.all.on { background: rgba(108,71,255,.1); border-color: #6C47FF; color: #6C47FF; }
+[data-theme="light"] .chip.grn.on { background: rgba(16,185,129,.1); border-color: #10B981; color: #059669; }
+[data-theme="light"] .chip.amb.on { background: rgba(245,158,11,.1); border-color: #F59E0B; color: #D97706; }
+[data-theme="light"] .chip.red.on { background: rgba(239,68,68,.1); border-color: #EF4444; color: #DC2626; }
+[data-theme="light"] .chip.pur.on { background: rgba(6,182,212,.1); border-color: #06B6D4; color: #0891B2; }
+
+/* ── Month Select ── */
+[data-theme="light"] .msel { background: #FFFFFF; border-color: #E5E7EB; color: #1A1A2E; }
+[data-theme="light"] .msel:focus { border-color: #6C47FF; }
+
+/* ── List Header ── */
+[data-theme="light"] .list-hdr-t { color: #9CA3AF; }
+[data-theme="light"] .cpill { background: rgba(108,71,255,.08); border-color: rgba(108,71,255,.15); color: #6C47FF; }
+
+/* ── Subscriber Cards ── */
+[data-theme="light"] .scard {
+  background: #FFFFFF;
+  border-color: rgba(0,0,0,.05);
+  box-shadow: 0 2px 14px rgba(108,71,255,.07);
+}
+[data-theme="light"] .scard.expired { background: #FFF5F5; border-color: rgba(239,68,68,.15); }
+[data-theme="light"] .scard.expiring { background: #FFFBF0; border-color: rgba(245,158,11,.15); }
+[data-theme="light"] .scard.unpaid-card { background: #FFF5F5; border-color: rgba(239,68,68,.2); }
+[data-theme="light"] .scard:active { box-shadow: 0 1px 6px rgba(108,71,255,.08); }
+
+[data-theme="light"] .sc-name { color: #1A1A2E; }
+[data-theme="light"] .sc-user { color: #6C47FF; }
+[data-theme="light"] .sc-price { color: #6C47FF; }
+[data-theme="light"] .sc-cur { color: #9CA3AF; }
+[data-theme="light"] .dc-l { color: #9CA3AF; }
+[data-theme="light"] .dc-v { color: #4B5563; }
+[data-theme="light"] .badge.active { background: rgba(16,185,129,.1); color: #059669; }
+[data-theme="light"] .badge.expiring { background: rgba(245,158,11,.1); color: #D97706; }
+[data-theme="light"] .badge.expired { background: rgba(239,68,68,.1); color: #DC2626; }
+[data-theme="light"] .dpill.u { background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.2); color: #EF4444; }
+[data-theme="light"] .dpill.p { background: rgba(6,182,212,.07); border-color: rgba(6,182,212,.2); color: #0891B2; }
+[data-theme="light"] .rnbtn { background: rgba(108,71,255,.1); border-color: rgba(108,71,255,.3); color: #6C47FF; }
+[data-theme="light"] .rnbtn:hover { background: #6C47FF; color: #fff; border-color: transparent; box-shadow: 0 4px 16px rgba(108,71,255,.35); }
+[data-theme="light"] .qpay-btn { background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.3); color: #059669; }
+[data-theme="light"] .qpay-btn:hover { background: #10B981; color: #fff; }
+
+/* ── FAB ── */
+[data-theme="light"] .fab {
+  background: linear-gradient(135deg, #6C47FF, #9B73FF);
+  box-shadow: 0 8px 28px rgba(108,71,255,.4);
+}
+
+/* ── Debt Page ── */
+[data-theme="light"] #pdebts [style*="rgba(255,71,87"] { background: #FFF5F5 !important; border-color: rgba(239,68,68,.2) !important; }
+[data-theme="light"] #pdebts [style*="rgba(255,165,2"] { background: #FFFBF0 !important; border-color: rgba(245,158,11,.2) !important; }
+
+/* ── Report ── */
+[data-theme="light"] .rmsel { background: #FFFFFF; border-color: #E5E7EB; color: #1A1A2E; }
+[data-theme="light"] .rcard { background: #FFFFFF; border-color: rgba(0,0,0,.04); box-shadow: 0 2px 12px rgba(108,71,255,.07); }
+[data-theme="light"] .rcard.b .rcard-v { color: #6C47FF; }
+[data-theme="light"] .rcard.g .rcard-v { color: #10B981; }
+[data-theme="light"] .rcard.r .rcard-v { color: #EF4444; }
+[data-theme="light"] .rcard.a .rcard-v { color: #F59E0B; }
+[data-theme="light"] .rcard-l { color: #9CA3AF; }
+[data-theme="light"] .prog-b { background: #F3F4F6; }
+[data-theme="light"] .r-row { background: #FFFFFF; border-color: rgba(0,0,0,.04); box-shadow: 0 1px 6px rgba(108,71,255,.05); }
+
+/* ── Overlays & Sheets ── */
+[data-theme="light"] .ov { background: rgba(30,10,76,.55); }
+[data-theme="light"] .sheet { background: #FFFFFF; border-color: rgba(108,71,255,.15); box-shadow: 0 -8px 40px rgba(108,71,255,.15); }
+[data-theme="light"] .cmodal { background: #FFFFFF; border-color: rgba(108,71,255,.15); box-shadow: 0 20px 60px rgba(108,71,255,.2); }
+[data-theme="light"] .sheet-handle-bar { background: #E5E7EB; }
+[data-theme="light"] .mhandle { background: #E5E7EB; }
+[data-theme="light"] .sheet-footer { border-top-color: #F3F4F6; }
+[data-theme="light"] .ptab-bar { border-bottom-color: #F3F4F6; }
+[data-theme="light"] .ptab { color: #9CA3AF; }
+[data-theme="light"] .ptab.on { color: #6C47FF; border-bottom-color: #6C47FF; }
+
+/* ── Form Elements ── */
+[data-theme="light"] .fi, [data-theme="light"] .fsl {
+  background: #F9FAFB;
+  border-color: #E5E7EB;
+  color: #1A1A2E;
+}
+[data-theme="light"] .fi:focus, [data-theme="light"] .fsl:focus { border-color: #6C47FF; box-shadow: 0 0 0 3px rgba(108,71,255,.1); }
+[data-theme="light"] .fi::placeholder { color: #C4C9D9; }
+[data-theme="light"] .fl { color: #6B7280; }
+[data-theme="light"] .fhint { color: #9CA3AF; }
+[data-theme="light"] .pkc { background: #F9FAFB; border-color: #E5E7EB; color: #4B5563; }
+[data-theme="light"] .pkc:hover, [data-theme="light"] .pkc.on { border-color: #6C47FF; color: #6C47FF; background: rgba(108,71,255,.06); }
+
+/* ── Buttons ── */
+[data-theme="light"] .btn.bp { background: linear-gradient(135deg, #6C47FF, #9B73FF); box-shadow: 0 6px 20px rgba(108,71,255,.3); }
+[data-theme="light"] .btn.bs { background: linear-gradient(135deg, #06B6D4, #10B981); color: #fff; box-shadow: 0 6px 18px rgba(6,182,212,.25); }
+[data-theme="light"] .btn.bd { background: rgba(239,68,68,.07); color: #EF4444; border-color: rgba(239,68,68,.25); }
+[data-theme="light"] .btn.bg { background: #F9FAFB; color: #4B5563; border-color: #E5E7EB; }
+[data-theme="light"] .btn.bg:hover { background: #F3F4F6; }
+[data-theme="light"] .lbtn { background: linear-gradient(135deg, #6C47FF, #9B73FF); box-shadow: 0 8px 28px rgba(108,71,255,.35); }
+
+/* ── Pay Toggle ── */
+[data-theme="light"] .pt { border-color: #E5E7EB; color: #9CA3AF; }
+[data-theme="light"] .pt.on.paid { border-color: #10B981; background: rgba(16,185,129,.08); color: #059669; }
+[data-theme="light"] .pt.on.unpaid { border-color: #EF4444; background: rgba(239,68,68,.07); color: #EF4444; }
+
+/* ── Confirm Modal ── */
+[data-theme="light"] .crow { background: #F9FAFB; border-color: #E5E7EB; }
+[data-theme="light"] .ck { color: #4B5563; }
+[data-theme="light"] .cv.g { color: #10B981; } [data-theme="light"] .cv.r { color: #EF4444; }
+[data-theme="light"] .cv.b { color: #6C47FF; } [data-theme="light"] .cv.a { color: #F59E0B; }
+[data-theme="light"] .arr { color: #6C47FF; }
+[data-theme="light"] .dbox { border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.05); }
+[data-theme="light"] .dbox-t { color: #D97706; }
+
+/* ── Settings ── */
+[data-theme="light"] .setrow { background: #F9FAFB; border-color: #E5E7EB; }
+[data-theme="light"] .setk { color: #4B5563; }
+[data-theme="light"] .setv { color: #1A1A2E; }
+[data-theme="light"] .pkg-mi { background: #F9FAFB; border-color: #E5E7EB; }
+[data-theme="light"] .pkg-mv { color: #6C47FF; }
+[data-theme="light"] .stab { background: #F9FAFB; border-color: #E5E7EB; color: #4B5563; }
+[data-theme="light"] .stab.on { background: rgba(108,71,255,.1); border-color: #6C47FF; color: #6C47FF; }
+
+/* ── Toast ── */
+[data-theme="light"] .toast {
+  background: #FFFFFF;
+  border-color: #E5E7EB;
+  color: #1A1A2E;
+  box-shadow: 0 10px 32px rgba(108,71,255,.15);
+}
+[data-theme="light"] .toast.s { border-color: rgba(16,185,129,.4); color: #059669; }
+[data-theme="light"] .toast.e { border-color: rgba(239,68,68,.4); color: #EF4444; }
+
+/* ── Charts ── */
+[data-theme="light"] .chart-wrap { background: #FFFFFF; border-color: rgba(0,0,0,.04); box-shadow: 0 2px 12px rgba(108,71,255,.07); }
+[data-theme="light"] .chart-title { color: #6B7280; }
+
+/* ── Detail Stats ── */
+[data-theme="light"] .ds { background: #F9FAFB; border-color: #E5E7EB; }
+[data-theme="light"] .dbar { background: #F3F4F6; }
+
+/* ── Section Separator ── */
+[data-theme="light"] .sec-sep { background: #F3F4F6; }
+
+/* ── Message Tags ── */
+[data-theme="light"] .msg-tag { background: rgba(108,71,255,.08); border-color: rgba(108,71,255,.2); color: #6C47FF; }
+[data-theme="light"] .msg-tag:hover { background: #6C47FF; color: #fff; }
+
+/* ── Lookup ── */
+[data-theme="light"] .lookup-result { background: #FFFFFF; border-color: rgba(0,0,0,.04); box-shadow: 0 2px 14px rgba(108,71,255,.07); }
+
+/* ── Bulk Bar ── */
+[data-theme="light"] .bulk-bar { background: #FFFFFF; border-top-color: rgba(108,71,255,.1); box-shadow: 0 -4px 20px rgba(108,71,255,.1); }
+
+/* ── Days Prog ── */
+[data-theme="light"] .days-prog-wrap { background: #F3F4F6; }
+
+/* ── Theme Chips in Settings ── */
+[data-theme="light"] .theme-chip { color: #4B5563; }
+[data-theme="light"] .theme-chip.active { border-color: #6C47FF; color: #6C47FF; }
 </style>
 </head>
 <body>
@@ -1543,11 +1819,11 @@ function toggleTheme(){
   setTheme(order[(idx+1)%order.length]);
 }
 function applyTheme(){
-  const t=_theme||'dark';
+  const t=_theme||'light';
   document.documentElement.setAttribute('data-theme',t);
   const isDark=!['light','sand'].includes(t);
   const i=isDark?'🌙':'☀️';
-  const metaColor={dark:'#080b14',light:'#f0f4ff',black:'#000',neon:'#050508',glass:'#1a1040',sand:'#f5f0e8'};
+  const metaColor={dark:'#080b14',light:'#6C47FF',black:'#000',neon:'#050508',glass:'#1a1040',sand:'#f5f0e8'};
   const mc=document.querySelector('meta[name="theme-color"]');
   const bg=metaColor[t]||'#080b14';
   if(mc)mc.setAttribute('content',bg);
@@ -2613,7 +2889,7 @@ function exportJSON(){
     subs,
     settings:_cfg||{},
     packages:_pkgs||[],
-    theme:_theme||'dark',
+    theme:_theme||'light',
     exported:new Date().toISOString()
   };
   const json=JSON.stringify(data,null,2);
