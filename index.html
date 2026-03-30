@@ -51,12 +51,14 @@
 
 /* ══ الثلاثة الأساسية ══ */
 [data-theme="dark"]{
-  --bg:#080b14;--g1:#0d1425;--g2:#101828;--g3:#14203a;
-  --b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.1);
-  --br:rgba(255,255,255,.08);--br2:rgba(108,99,255,.4);
-  --tx:#f0f4ff;--tx2:#8899bb;--tx3:#3a4a6a;
-  --card:rgba(13,20,37,.8);--inp:rgba(255,255,255,.05);
-  --glass:rgba(13,20,37,.7);--topbar:rgba(8,11,20,.9);--sh:rgba(0,0,0,.6);
+  --bg:#F0F1FF;--g1:#FFFFFF;--g2:#FFFFFF;--g3:#F5F3FF;
+  --b1:rgba(108,71,255,.06);--b2:rgba(108,71,255,.1);
+  --br:rgba(108,71,255,.1);--br2:rgba(108,71,255,.4);
+  --tx:#1A1A2E;--tx2:#4B5563;--tx3:#9CA3AF;
+  --card:#FFFFFF;--inp:#F9FAFB;
+  --glass:rgba(255,255,255,.95);--topbar:rgba(30,10,76,.97);--sh:rgba(108,71,255,.1);
+  --a1:#6C47FF;--a2:#9B73FF;--a3:#10B981;
+  --red:#EF4444;--amber:#F59E0B;--green:#10B981;--teal:#06B6D4;
 }
 [data-theme="light"]{
   --bg:#F0F1FF;--g1:#FFFFFF;--g2:#FFFFFF;--g3:#F5F3FF;
@@ -1936,7 +1938,7 @@ async function dbLoadAllSettings(){
     (data||[]).forEach(row=>{
       if(row.key==='settings')_cfg={...DEFAULT_CFG,...(row.value||{})};
       if(row.key==='packages'&&Array.isArray(row.value)&&row.value.length)_pkgs=row.value;
-      if(row.key==='theme')_theme=row.value;
+      if(row.key==='theme')_theme=(['light','dark','black','neon','glass','sand'].includes(row.value)?row.value:'light');
     });
   }catch(e){console.error('dbLoadAllSettings:',e);}
 }
